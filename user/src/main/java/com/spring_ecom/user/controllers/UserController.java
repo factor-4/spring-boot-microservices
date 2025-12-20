@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users/{id}")
-    public ResponseEntity< UserResponse> getUser(@PathVariable Long id){
+    public ResponseEntity< UserResponse> getUser(@PathVariable String id){
 
         return  userService.fetchUser(id)
                 .map(ResponseEntity::ok)
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping("/api/users/{id}")
-    public ResponseEntity<String> getAllUsers(@PathVariable Long id,
+    public ResponseEntity<String> getAllUsers(@PathVariable String id,
                                               @RequestBody UserRequest updateUserRequest){
         boolean updated = userService.updateUser(id, updateUserRequest);
         if(updated){
