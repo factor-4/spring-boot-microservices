@@ -2,15 +2,16 @@ spring:
   application:
      name: product-service
   datasource:
-#    url: jdbc:postgresql://localhost:5432/product
-    url: jdbc:mysql://localhost:3306/productservice
-    username: root
+    url: jdbc:postgresql://localhost:5432/product
+#    url: jdbc:mysql://localhost:3306/productservice
+    username: admin
     password: admin
   jpa:
+    database: POSTGRESQL
     show-sql: true
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: true

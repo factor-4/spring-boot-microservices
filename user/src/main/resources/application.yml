@@ -5,7 +5,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://khansshahn_db_user:6nK0bsEwpz6Y5VCx@user-data.0gcgma5.mongodb.net/?appName=user-data
+      uri: mongodb://localhost:27017/userdb
       database: userdb
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/userdb
@@ -31,5 +31,5 @@ spring:
 #      ddl-auto: create
 
 server:
-  port: 8088
+  port: 8082
 
