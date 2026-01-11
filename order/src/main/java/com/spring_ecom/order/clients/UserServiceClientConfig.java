@@ -14,17 +14,16 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import java.util.Optional;
 
 @Configuration
-public class ProductServiceClientConfig {
+public class UserServiceClientConfig {
 
 
-
-    //  Explicitly inject ONLY the load-balanced one
+    // ✅ Explicitly inject ONLY the load-balanced one
     @Bean
-    public ProductServiceClient productServiceClient(
+    public UserServiceClient userServiceClient(
             @Qualifier("loadBalancedBuilder") RestClient.Builder builder
     ) {
         RestClient restClient = builder
-                .baseUrl("http://product-service")
+                .baseUrl("http://user-service")
                 .defaultStatusHandler(HttpStatusCode::is4xxClientError,
                         ((request, response) -> Optional.empty()))
                 .build();
@@ -34,6 +33,6 @@ public class ProductServiceClientConfig {
         HttpServiceProxyFactory factory =
                 HttpServiceProxyFactory.builderFor(adapter).build();
 
-        return factory.createClient(ProductServiceClient.class);
+        return factory.createClient(UserServiceClient.class);
     }
 }
