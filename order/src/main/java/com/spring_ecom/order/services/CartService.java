@@ -10,6 +10,7 @@ import com.spring_ecom.order.models.CartItem;
 import com.spring_ecom.order.repositories.CartItemRepository;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.spring6.fallback.FallbackMethod;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CartService {
     private final ProductServiceClient productServiceClient;
     private final UserServiceClient userServiceClient;
 
-    @CircuitBreaker(name = "productService")
+    @CircuitBreaker(name = "productService", fallbackMethod = "addToCartFallBack")
     public boolean addToCart(String userId, CartItemRequest request) {
 
 
@@ -70,6 +71,20 @@ public class CartService {
 
         return true;
     }
+
+
+    public boolean addToCartFallBack(String userId, CartItemRequest request,
+                                     Exception exception) {
+
+
+
+        System.out.println("Fallback called");
+        return false;
+    }
+
+
+
+
 
     public boolean deleteItemFromCart(String userId, String productId) {
 
