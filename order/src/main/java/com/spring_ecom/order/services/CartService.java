@@ -9,6 +9,7 @@ import com.spring_ecom.order.models.CartItem;
 
 import com.spring_ecom.order.repositories.CartItemRepository;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class CartService {
     private final ProductServiceClient productServiceClient;
     private final UserServiceClient userServiceClient;
 
+    @CircuitBreaker(name = "productService")
     public boolean addToCart(String userId, CartItemRequest request) {
 
 
