@@ -1,5 +1,6 @@
 package com.spring_ecom.order.services;
 
+import com.spring_ecom.order.dtos.OrderCreatedEvent;
 import com.spring_ecom.order.dtos.OrderItemDto;
 import com.spring_ecom.order.dtos.OrderResponse;
 
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -79,11 +81,33 @@ public class OrderService {
         // clear the cart
         cartService.clearCart(userId);
 
+        //publish order created event
+        OrderCreatedEvent event = new OrderCreatedEvent(
+                savedOrder.getId(),
+                savedOrder.getUserId(),
+                savedOrder.getStatus(),
+                mapToOrderitemDTOs(savedOrder.getItems()),
+                savedOrder.getTotalAmount(),
+                savedOrder.getCreatedAt()
+        );
+
+
         rabbitTemplate.convertAndSend(exchangeName, routingKey,
-                Map.of("orderId", savedOrder.getId(), "status", "CREATED"));
+                event);
         
         return Optional.of(mapToOrderResponse(savedOrder));
 
+    }
+
+    private List<OrderItemDto> mapToOrderitemDTOs(List<OrderItem> items){
+        return items.stream()
+                .map(item->new OrderItemDto(
+                        item.getId(),
+                        item.getProductId(),
+                        item.getQuantity(),
+                        item.getPrice(),
+                        item.getPrice().multiply(new BigDecimal(item.getQuantity()))
+                )).toList();
     }
 
     private OrderResponse mapToOrderResponse(Order order) {
