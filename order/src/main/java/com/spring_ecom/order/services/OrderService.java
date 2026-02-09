@@ -10,8 +10,7 @@ import com.spring_ecom.order.models.CartItem;
 import com.spring_ecom.order.models.Order;
 import com.spring_ecom.order.models.OrderItem;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 

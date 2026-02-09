@@ -3,7 +3,6 @@ package com.ecom.notification;
 
 import com.ecom.notification.payload.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
